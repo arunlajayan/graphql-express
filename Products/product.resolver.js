@@ -13,6 +13,11 @@ module.exports = {
             // console.log(data)
             return data;
         }
+    },
+    Mutation: {
+        AddNewProduct: (_, args) =>{
+            return productModel.AddNewProduct(args.id, args, description, args.price);
+        }
     }
    
 }
