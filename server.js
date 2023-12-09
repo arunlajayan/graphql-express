@@ -1,70 +1,46 @@
 const express = require("express");
-const { buildSchema } = require("graphql");
+const path = require('path');
+// const { buildSchema } = require("graphql");
 const { graphqlHTTP } = require("express-graphql");
+const { loadFilesSync } = require('@graphql-tools/load-files');
+const { makeExecutableSchema } = require('@graphql-tools/schema');
 
-const { makeExecutableSchema } = require('@graphql-tools/schema')
+const typesArray = loadFilesSync(path.join(__dirname, '**/*.graphql'))
 
-const app = express();
-
-const schema = buildSchema(`
-
+const resolversArray = loadFilesSync(path.join(__dirname,'**/*.resolver.js'))
+const schemaText = `
 type Query{
     Products:[Product]
     Orders: [Order]
 }
-type Product{
-    id:ID
-    description: String,
-    reviews:[Review]
-    price: Float
-}
+`
 
-type Review{
-    rating: Int
-    comment: String
-}
+const schema = makeExecutableSchema({
+    typeDefs: typesArray,
+    resolvers: {
+        Query: {
+            Products: async (parent, args, context, info) => {
+                console.log(`${JSON.stringify(parent
+                 )} is coming`);
+                const prod = await Promise.resolve(parent.Products);
+                return prod;
+            },
+            Orders: (parent, args, context, info) => {
+                console.log(`${JSON.stringify(parent)} is coming`);
+                return parent.Orders
+            }
+        }
+    }
+})
+const app = express();
 
-type Order{
-    date: String
-    subtotal:Float
-    items: [OrderItem]
-}
+// const schema = buildSchema(`
 
-type OrderItem{
-    product: Product
-    quantity: Int
-}
-`);
+
+// `);
 const root = {
-  Products: [
-    {
-      id: "red shoe",
-      description: " shoe",
-      price: 12.2,
-    },
-    {
-      id: "red shirt",
-      description: " dress",
-      price: 10.2,
-    },
-  ],
-  Orders: [
-    {
-      date: "2001-02-20",
-      subtotal: 40.2,
-      items: [
-        {
-          product: {
-            id: "red shirt",
-            description: " dress",
-            price: 10.2,
-          },
-          quantity: 2,
-          
-        },
-      ],
-    },
-  ],
+  Products: require('./Products/products.model'),
+  Orders: require('./Orders/orders.model')
 };
 
 app.use(
