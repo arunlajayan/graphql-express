@@ -12,9 +12,9 @@ const product = [
 ]
 
 function getAllProduct() {
-    return products
+    return product
 };
 
-module.export = {
+module.exports = {
     getAllProduct,
 }
