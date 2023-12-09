@@ -29,7 +29,7 @@ async function getProductById(ides) {
     })
 }
 function AddNewProduct(id, description, price) {
-    console.log(id,description,price)
+   // console.log(id,description,price)
     const newProduct = {
         id,
         description,
@@ -39,9 +39,25 @@ function AddNewProduct(id, description, price) {
     product.push(newProduct);
     return newProduct;
 }
+
+async function addNewProductReview(id, rating, comment) {
+   const findProduct = await getProductById(id);
+   
+    if (findProduct) {
+        await  console.log(findProduct[0].id)
+        const newReview = {
+            rating,
+            comment
+        }
+        findProduct[0].reviews.push(newReview);
+        return findProduct;
+    }
+}
+
 module.exports = {
     getAllProduct,
     getProductByPrice,
     getProductById,
-    AddNewProduct
+    AddNewProduct,
+    addNewProductReview
 }
