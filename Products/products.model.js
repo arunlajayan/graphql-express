@@ -29,6 +29,7 @@ async function getProductById(ides) {
     })
 }
 function AddNewProduct(id, description, price) {
+    console.log(id,description,price)
     const newProduct = {
         id,
         description,
@@ -36,9 +37,11 @@ function AddNewProduct(id, description, price) {
         reviews:[]
     }
     product.push(newProduct);
+    return newProduct;
 }
 module.exports = {
     getAllProduct,
     getProductByPrice,
-    getProductById
+    getProductById,
+    AddNewProduct
 }

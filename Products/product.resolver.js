@@ -16,7 +16,7 @@ module.exports = {
     },
     Mutation: {
         AddNewProduct: (_, args) =>{
-            return productModel.AddNewProduct(args.id, args, description, args.price);
+            return productModel.AddNewProduct(args.id, args.description, args.price);
         }
     }
    
