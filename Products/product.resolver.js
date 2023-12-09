@@ -5,6 +5,14 @@ module.exports = {
         Products: async (parent, args, context, info) => {
             return productModel.getAllProduct();
         },
+        productByPrice: (_, args) => {
+            return productModel.getProductByPrice(args.min,args.max)
+        },
+        productById: async (_, args) => {
+            const data = await Promise.resolve(productModel.getProductById(args.ides));
+            // console.log(data)
+            return data;
+        }
     }
    
 }

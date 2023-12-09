@@ -1,6 +1,7 @@
 type Query{
-    Products:[Product]
-    Orders: [Order]
+    Products:[Product],
+     productByPrice(min:Float!, max:Float!):[Product]
+    productById(ides: String):[Product]
 }
 type Product{
     id:ID
