@@ -17,20 +17,7 @@ type Query{
 
 const schema = makeExecutableSchema({
     typeDefs: typesArray,
-    resolvers: {
-        Query: {
-            Products: async (parent, args, context, info) => {
-                console.log(`${JSON.stringify(parent
-                 )} is coming`);
-                const prod = await Promise.resolve(parent.Products);
-                return prod;
-            },
-            Orders: (parent, args, context, info) => {
-                console.log(`${JSON.stringify(parent)} is coming`);
-                return parent.Orders
-            }
-        }
-    }
+    resolvers:resolversArray
 })
 const app = express();
 
